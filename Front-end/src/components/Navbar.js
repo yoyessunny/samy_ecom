@@ -1,7 +1,30 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
 
 const Navbar = () => {
+
+  const loginname = useSelector((state) => state.loginName);
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    dispatch({
+      type:'delete'
+    });
+  }
+
+  let menu;
+
+  if(loginname===""){
+    menu = (
+      <Link to="/login" type="button" className="btn btn-outline-light me-2">Login</Link>
+    );
+  }else{
+    menu = (
+      <Link to="/login" type="button" className="btn btn-outline-light me-2" onClick={logout}>Logout</Link>
+    );
+  }
+
   return (
     <div>
       <header className="p-3 bg-dark text-white">
@@ -13,7 +36,7 @@ const Navbar = () => {
 
             <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li><Link to="/" className="nav-link px-2 text-white">Home</Link></li>
-              <li><Link to="/" className="nav-link px-2 text-white">Features</Link></li>
+              <li><Link to="/products" className="nav-link px-2 text-white">Products</Link></li>
               <li><Link to="/" className="nav-link px-2 text-white">Pricing</Link></li>
               <li><Link to="/" className="nav-link px-2 text-white">FAQs</Link></li>
               <li><Link to="/" className="nav-link px-2 text-white">About</Link></li>
@@ -24,9 +47,11 @@ const Navbar = () => {
             </form>
 
             <div className="text-end">
-              <Link to="/login" type="button" className="btn btn-outline-light me-2">Login</Link>
-              <button type="button" className="btn btn-warning">Sign-up</button>
+              {menu}
+              <Link to="/register" type="button" className="btn btn-warning">Register</Link>
+              {loginname ? 'Welcome ' + loginname : 'Guest'}
             </div>
+
           </div>
         </div>
       </header>
