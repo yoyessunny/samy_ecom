@@ -3,7 +3,8 @@ import Home from './components/Home';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Login from './components/Login';
-import Products from './components/Products';
+import AddProduct from './components/AddProducts';
+import Product from './components/Products';
 import Forgot from './components/Forgot';
 import Register from './components/Register';
 import { useSelector } from 'react-redux';
@@ -25,7 +26,8 @@ const App = () => {
                 { loginname ?
                 (<>
                 <Route path="/" exact={true} component={Home} />
-                <Route path="/products" component={Products} />
+                <Route path="/addproducts" component={AddProduct} />
+                <Route path="/products" component={Product} />
                 </>)
                 :   <Route path="/" exact={true} component={Login} />
                 
