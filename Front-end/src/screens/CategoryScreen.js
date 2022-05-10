@@ -1,10 +1,11 @@
 import React,{ useEffect, useReducer} from 'react';
+import {useParams} from 'react-router-dom';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Rating from './Rating';
+import Rating from '../components/Rating';
 import logger from 'use-reducer-logger';
 
 const reducer = (state, action) => {
@@ -20,7 +21,11 @@ const reducer = (state, action) => {
   }
 };
 
-const Product = () => {
+const CategoryScreen = () => {
+
+  
+  const params = useParams();
+  const {categoryName} = params;
 
   const [{ loading, error, productList}, dispatch] = useReducer( logger(reducer), {
     productList: [],
@@ -32,6 +37,7 @@ const Product = () => {
     dispatch({type: 'FETCH_REQUEST'});
     axios.get('http://localhost:5000/product')
     .then(function (response) {
+      //setProductList(response.data);
       console.log(response);
       dispatch({type: 'FETCH_SUCCESS', payload: response.data});
     })
@@ -49,7 +55,15 @@ const Product = () => {
         : 
         error ? <div>{error}</div>
         : (
-        productList && productList.map((item, index) => {
+        productList && productList
+        .filter((val) => {
+          if (categoryName === '') {
+            return val;
+          } else if (val.product_category.toLowerCase().includes(categoryName.toLowerCase())) {
+            return val;
+          }
+        })
+        .map((item, index) => {
           return (
           <Col sm={6} md={4} lg={3} className="mb-3">
           <Card key={index}>
@@ -74,4 +88,4 @@ const Product = () => {
   )
 }
 
-export default Product;
+export default CategoryScreen;

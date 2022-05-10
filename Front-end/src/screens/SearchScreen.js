@@ -4,8 +4,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import Rating from './Rating';
+import Rating from '../components/Rating';
 import logger from 'use-reducer-logger';
+import {useParams} from 'react-router-dom';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -20,7 +21,9 @@ const reducer = (state, action) => {
   }
 };
 
-const Product = () => {
+const SearchScreen = () => {
+
+  const {name} = useParams();
 
   const [{ loading, error, productList}, dispatch] = useReducer( logger(reducer), {
     productList: [],
@@ -49,7 +52,15 @@ const Product = () => {
         : 
         error ? <div>{error}</div>
         : (
-        productList && productList.map((item, index) => {
+        productList && productList
+        .filter((val) => {
+            if (name === '') {
+              return val;
+            } else if (val.product_name.toLowerCase().includes(name.toLowerCase())) {
+                return val;
+            }
+          })
+        .map((item, index) => {
           return (
           <Col sm={6} md={4} lg={3} className="mb-3">
           <Card key={index}>
@@ -74,4 +85,4 @@ const Product = () => {
   )
 }
 
-export default Product;
+export default SearchScreen;

@@ -82,7 +82,7 @@ app.post("/productregister", async(req, res) => {
   try{
     console.log("req.body: ",req.body);
 
-    const {product_name, product_image, product_price, product_rating, product_reviews} = req.body;
+    const {product_name, product_image, product_price, product_rating, product_reviews, product_category} = req.body;
 
     await Product.create({
         product_name: product_name,
@@ -90,6 +90,8 @@ app.post("/productregister", async(req, res) => {
         product_price: product_price,
         product_rating: product_rating,
         product_reviews: product_reviews,
+        product_category: product_category,
+        delete_flag: false,
       }).then(()=>{
         res.send("Product Added");
       }).catch((err) => {
@@ -98,5 +100,53 @@ app.post("/productregister", async(req, res) => {
   } catch (err) {}
 });
 
-app.listen(5000);
+app.get("/product/:id", async(req, res) => {
+  const product_id = req.params.id;
+  const product = await Product.findById(product_id);
+  if(product){
+    res.send(product);
+  }else{
+    res.send("Product not found");
+  }
+});
 
+app.put("/productedit/:id", async(req, res) => {
+  const product_id = req.params.id;
+  const product = await Product.findById(product_id);
+  if(product){
+    product.product_name = req.body.name;
+    product.product_price = req.body.price;
+    product.product_image = req.body.image;
+    await product.save();
+    res.send("Product Updated");
+  }else{
+    res.send("Product not found");
+  }
+});
+
+app.delete("/productdelete/:id", async(req, res) => {
+  const product_id = req.params.id;
+  const product = await Product.findById(product_id);
+  if(product){
+    product.delete_flag = true;
+    await product.save();
+    res.send("Product Deleted");
+  }else{
+    res.send("Product not found");
+  }
+});
+
+app.delete("/productrestore/:id", async(req, res) => {
+  const product_id = req.params.id;
+  const product = await Product.findById(product_id);
+  if(product){
+    product.delete_flag = false;
+    await product.save();
+    res.send("Product Restored");
+  }else{
+    res.send("Product not found");
+  }
+});
+
+
+app.listen(5000);

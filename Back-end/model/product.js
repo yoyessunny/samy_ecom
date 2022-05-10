@@ -10,19 +10,21 @@ const productschema = new Schema({
     },
     product_image: {
         type: String,
-        required: true
     },
     product_price: {
         type: String,
-        required: true
     },
     product_rating: {
         type: String,
-        required: true
     },
     product_reviews: {
         type: String,
-        required: true
+    },
+    product_category: {
+        type: String,
+    },
+    delete_flag: {
+        type: Boolean,
     }
 });
 

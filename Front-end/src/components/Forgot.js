@@ -1,5 +1,4 @@
 import React,{useState} from 'react';
-import { Redirect } from 'react-router-dom';
 
 const Forgot = () => {
 
@@ -7,8 +6,6 @@ const Forgot = () => {
 
   const submit = (e) => {
     e.preventDefault();
-
-    <Redirect to="/" exact={true} />
     
   };
 

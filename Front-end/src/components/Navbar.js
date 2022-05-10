@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = (props) => {
 
   const loginname = useSelector((state) => state.loginName);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const logout = () => {
     dispatch({
@@ -25,26 +27,39 @@ const Navbar = () => {
     );
   }
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+    navigate(`/search/name/${searchTerm}`);
+  }
+
   return (
     <div>
       <header className="p-3 bg-dark text-white">
         <div className="container">
           <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <button
+              type="button"
+              className="open-sidebar"
+              onClick={() => props.setSidebarIsOpen(true)}
+            >
+              <i className="fa fa-bars"></i>
+            </button>
             <Link to="/" className="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
               <img src='logo192.png' alt='' width='50px' />
             </Link>
 
             <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li><Link to="/" className="nav-link px-2 text-white">Home</Link></li>
-              <li><Link to="/addproducts" className="nav-link px-2 text-white">AddProducts</Link></li>
               <li><Link to="/products" className="nav-link px-2 text-white">Products</Link></li>
-              <li><Link to="/" className="nav-link px-2 text-white">Pricing</Link></li>
-              <li><Link to="/" className="nav-link px-2 text-white">FAQs</Link></li>
+              <li><Link to="/productlist" className="nav-link px-2 text-white">ProductList</Link></li>
+              <li><Link to="/trashproductlist" className="nav-link px-2 text-white">Trash</Link></li>
               <li><Link to="/" className="nav-link px-2 text-white">About</Link></li>
             </ul>
 
-            <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-              <input type="search" className="form-control form-control-dark" placeholder="Search..." aria-label="Search" />
+            <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" onSubmit={submitHandler}>
+              <input type="search" className="form-control form-control-dark" placeholder="Search..." aria-label="Search" 
+               onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </form>
 
             <div className="text-end">
