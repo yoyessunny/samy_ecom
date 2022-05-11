@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Rating from '../components/Rating';
 import logger from 'use-reducer-logger';
-import {useParams} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -64,11 +64,15 @@ const SearchScreen = () => {
           return (
           <Col sm={6} md={4} lg={3} className="mb-3">
           <Card key={index}>
+            <Link to={`/products/${item._id}`}>
             <img src={item.product_image} className="card-img-top" alt={item.product_name} height="250px" />
+            </Link>
             <Card.Body>
+              <Link to={`/products/${item._id}`}>
               <Card.Title>
                 {item.product_name}
               </Card.Title>
+              </Link>
               <Rating rating={item.product_rating} numReviews={item.product_reviews} />
               <Card.Text>
                 Rs. {item.product_price}

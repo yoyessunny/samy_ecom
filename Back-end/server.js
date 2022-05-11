@@ -82,7 +82,7 @@ app.post("/productregister", async(req, res) => {
   try{
     console.log("req.body: ",req.body);
 
-    const {product_name, product_image, product_price, product_rating, product_reviews, product_category} = req.body;
+    const {product_name, product_image, product_price, product_rating, product_reviews, product_description, product_countInStock, product_category} = req.body;
 
     await Product.create({
         product_name: product_name,
@@ -90,6 +90,8 @@ app.post("/productregister", async(req, res) => {
         product_price: product_price,
         product_rating: product_rating,
         product_reviews: product_reviews,
+        product_description: product_description,
+        product_countInStock: product_countInStock,
         product_category: product_category,
         delete_flag: false,
       }).then(()=>{
@@ -143,6 +145,30 @@ app.delete("/productrestore/:id", async(req, res) => {
     product.delete_flag = false;
     await product.save();
     res.send("Product Restored");
+  }else{
+    res.send("Product not found");
+  }
+});
+
+app.post("/product/:id/reviews", async(req, res) => {
+  const product_id = req.params.id;
+  const product = await Product.findById(product_id);
+  if(product){
+    const review ={
+      name: req.body.name,
+      rating: Number(req.body.rating),
+      comment: req.body.comment,
+    };
+    product.reviews.push(review);
+    product.product_reviews = product.reviews.length;
+    product.product_rating =
+      product.reviews.reduce((a, c) => c.rating + a, 0) /
+      product.reviews.length;
+    const updatedProduct = await product.save();
+    res.send({
+      message: 'Review Created',
+      review: updatedProduct.reviews[updatedProduct.reviews.length - 1],
+    });
   }else{
     res.send("Product not found");
   }

@@ -2,6 +2,20 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const reviewschema = new Schema({
+    // _id:mongoose.Schema.Types.ObjectId,
+    name: {
+        type: String,
+        required: true
+    },
+    comment: {
+        type: String,
+    },
+    rating: {
+        type: Number,
+    },
+});
+
 const productschema = new Schema({
     // _id:mongoose.Schema.Types.ObjectId,
     product_name: {
@@ -18,6 +32,12 @@ const productschema = new Schema({
         type: String,
     },
     product_reviews: {
+        type: Number,
+    },
+    product_description: {
+        type: String,
+    },
+    product_countInStock: {
         type: String,
     },
     product_category: {
@@ -25,7 +45,8 @@ const productschema = new Schema({
     },
     delete_flag: {
         type: Boolean,
-    }
+    },
+    reviews: [reviewschema]
 });
 
 const Product = mongoose.model("product", productschema);

@@ -18,6 +18,7 @@ import TrashProductListScreen from './screens/TrashProductListScreen';
 import CategoryScreen from './screens/CategoryScreen';
 import Footer from './components/Footer';
 import SearchScreen from './screens/SearchScreen';
+import ProductScreen from './screens/ProductScreen';
 
 const App = () => {
 
@@ -87,6 +88,7 @@ const App = () => {
                 <Route path="/" exact={true} element={<Home/>} />
                 <Route path="/addproducts" element={<AddProduct/>} />
                 <Route path="/products" element={<Product/>} />
+                <Route path="/products/:id" element={<ProductScreen/>} />
                 <Route path="/productlist" element={<ProductListScreen/>} />
                 <Route path="/productlist/:id" element={<ProductEditScreen/>} />
                 <Route path="/trashproductlist" element={<TrashProductListScreen/>} />

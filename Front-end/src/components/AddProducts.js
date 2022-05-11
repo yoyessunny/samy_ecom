@@ -12,6 +12,8 @@ const AddProduct = () => {
   const [product_price, setProductPrice] = useState("");
   const [product_rating, setProductRating] = useState("");
   const [product_reviews, setProductReviews] = useState("");
+  const [product_description, setProductDescription] = useState("");
+  const [product_countInStock, setProductCountInStock] = useState("");
   const [product_category, setProductCategory] = useState("");
 
   const submit = (e) => {
@@ -23,6 +25,8 @@ const AddProduct = () => {
       "product_price": product_price,
       "product_rating": product_rating,
       "product_reviews": product_reviews,
+      "product_description": product_description,
+      "product_countInStock": product_countInStock,
       "product_category": product_category,
     };
     axios.post('http://localhost:5000/productregister',data)
@@ -70,6 +74,18 @@ const AddProduct = () => {
             Product Reviews
           <input type="text" className="form-control" placeholder="Product Reviews"
             onChange={e => setProductReviews(e.target.value)}
+          />
+          </div>
+          <div className="form-floating">
+            Product Description
+          <input type="text" className="form-control" placeholder="Product Description"
+            onChange={e => setProductDescription(e.target.value)}
+          />
+          </div>
+          <div className="form-floating">
+            Product Count In Stock
+          <input type="text" className="form-control" placeholder="Product Count In Stock"
+            onChange={e => setProductCountInStock(e.target.value)}
           />
           </div>
           <div className="form-floating">

@@ -80,17 +80,21 @@ const ShirtsCarousel = () => {
                 return (
                 <div>
                 <Card key={index}>
-                    <img src={item.product_image} className="card-img-top" alt={item.product_name} height="250px" />
-                    <Card.Body>
+                  <Link to={`/products/${item._id}`}>
+                  <img src={item.product_image} className="card-img-top" alt={item.product_name} height="250px" />
+                  </Link>
+                  <Card.Body>
+                    <Link to={`/products/${item._id}`}>
                     <Card.Title>
-                        {item.product_name}
+                      {item.product_name}
                     </Card.Title>
+                    </Link>
                     <Rating rating={item.product_rating} numReviews={item.product_reviews} />
                     <Card.Text>
-                        Rs. {item.product_price}
+                      Rs. {item.product_price}
                     </Card.Text>
                     <Button>Add to Cart</Button>
-                    </Card.Body>
+                  </Card.Body>
                 </Card>
                 </div>
                 );
